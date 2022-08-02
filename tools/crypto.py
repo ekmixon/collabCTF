@@ -25,16 +25,12 @@ def hash_value(type=None, value=None):
 def rot(shift, value, encode):
     try:
         alphabet = string.ascii_lowercase
-        dic = {}
-        #If we want to encode this
-        if encode == "True":
-            for i in range(0, len(alphabet)):
-                dic[alphabet[i]] = alphabet[(i + int(shift, 10)) % len(alphabet)]
-
-        #If we want to decode a rotational cipher
-        else:
-            for i in range(0, len(alphabet)):
-                dic[alphabet[i]] = alphabet[(i + (26 - (int(shift, 10) % 26))) % len(alphabet)]
+        dic = {
+            alphabet[i]: alphabet[(i + int(shift, 10)) % len(alphabet)]
+            if encode == "True"
+            else alphabet[(i + (26 - (int(shift, 10) % 26))) % len(alphabet)]
+            for i in range(len(alphabet))
+        }
 
         #Convert each letter of plaintext to the corresponding
         #encrypted letter in our dictionary creating the cryptext
@@ -62,12 +58,8 @@ def base_conversions(value=None, base=None, currBase=10):
         base = int(str(base), 10)
         currBase = int(str(currBase), 10)
 
-        if currBase == 10:
-            value = int(str(value), 10)
-            return int_to_base(value, base)
-        else:
-            value = int(str(value), currBase)
-            return int_to_base(value, base)
+        value = int(str(value), 10) if currBase == 10 else int(str(value), currBase)
+        return int_to_base(value, base)
     except:
         return "An error occurred"
 

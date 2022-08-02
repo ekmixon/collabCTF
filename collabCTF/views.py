@@ -39,7 +39,6 @@ def user_settings(request):
             'email_form': EmailChangeForm()
         }
 
-        return render_to_response('settings.html', data, context_instance=RequestContext(request))
     else:
         password_changed = False
         password_form = PasswordChangeForm(request.user, data=request.POST)
@@ -53,7 +52,8 @@ def user_settings(request):
             'password_form': password_form,
             'password_changed': password_changed
         }
-        return render_to_response('settings.html', data, context_instance=RequestContext(request))
+
+    return render_to_response('settings.html', data, context_instance=RequestContext(request))
 
 
 @login_required
@@ -123,10 +123,9 @@ def log_in(request):
         if form.is_valid():
             cd = form.cleaned_data
             user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect(reverse('index'))
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect(reverse('index'))
 
         data = {
             'login_form': form

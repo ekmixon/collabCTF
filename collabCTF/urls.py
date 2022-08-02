@@ -44,8 +44,5 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
-    if 'MEDIA_ROOT' in dir(settings):
-        media_root = settings.MEDIA_ROOT
-    else:
-        media_root = 'files'
+    media_root = settings.MEDIA_ROOT if 'MEDIA_ROOT' in dir(settings) else 'files'
     urlpatterns += static.static(settings.MEDIA_URL, document_root=media_root)

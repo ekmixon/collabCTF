@@ -50,10 +50,7 @@ class Challenge(models.Model):
         return reverse('view_challenge', kwargs={'ctf_slug': self.competition.slug, 'chall_slug': self.slug})
 
     def last_viewed_display(self):
-        if self.last_viewed == 0:
-            return 'Never'
-        else:
-            return self.last_viewed
+        return 'Never' if self.last_viewed == 0 else self.last_viewed
 
     class Meta:
         unique_together = ('name', 'competition')
